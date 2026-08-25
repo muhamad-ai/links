@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ckb" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لینکەکانم</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+<style>
+  /* ============================================================
+     🎨 ڕەنگەکان — دەتوانیت لێرەدا بیانگۆڕیت
+     ============================================================ */
+  :root{
+    --bg:#0a0a0a;
+    --card:#141414;
+    --card-2:#1c1c1c;
+    --gold:#d4af37;
+    --gold-soft:#e6c260;
+    --line:rgba(212,175,55,.22);
+    --txt:#f5f0e6;
+    --muted:#9a9488;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:'Vazirmatn',system-ui,sans-serif;
+    background:
+      radial-gradient(900px 500px at 50% -10%, rgba(212,175,55,.10), transparent 60%),
+      var(--bg);
+    color:var(--txt);
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    padding:32px 18px 56px;
+  }
+  .wrap{width:100%;max-width:440px}
+
+  /* ---------- سەردێڕ / پرۆفایل ---------- */
+  .head{text-align:center;margin-bottom:28px}
+  .avatar{
+    width:104px;height:104px;margin:0 auto 16px;
+    border-radius:26px;
+    background:linear-gradient(145deg,#1e1e1e,#0e0e0e);
+    border:2px solid var(--gold);
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 0 0 6px rgba(212,175,55,.08), 0 14px 40px rgba(0,0,0,.6);
+    overflow:hidden;
+  }
+  .avatar img{width:100%;height:100%;object-fit:cover}
+  .avatar span{font-size:44px;font-weight:900;color:var(--gold)}
+  .name{font-size:24px;font-weight:900;letter-spacing:.3px}
+  .bio{color:var(--muted);font-size:15px;margin-top:6px}
+
+  /* ---------- دوگمەکانی ئەکاونت ---------- */
+  .links{display:flex;flex-direction:column;gap:13px;margin-top:8px}
+  .link{
+    display:flex;align-items:center;gap:14px;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:15px 18px;
+    text-decoration:none;color:var(--txt);
+    font-size:17px;font-weight:700;
+    transition:transform .15s ease, border-color .2s ease, background .2s ease;
+  }
+  .link:hover{transform:translateY(-2px);background:var(--card-2);border-color:var(--gold)}
+  .link:active{transform:translateY(0)}
+  .ico{
+    width:44px;height:44px;border-radius:12px;flex:0 0 auto;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .ico svg{width:24px;height:24px;fill:#fff}
+  .link .label{flex:1}
+  .link .chev{color:var(--muted);font-size:20px}
+
+  /* ---------- بەشی QR ---------- */
+  .qr-box{
+    margin-top:34px;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:22px 20px;
+    text-align:center;
+  }
+  .qr-box h2{font-size:18px;color:var(--gold-soft);margin-bottom:6px}
+  .qr-box p{color:var(--muted);font-size:13px;margin-bottom:16px;line-height:1.7}
+  .qr-input{
+    width:100%;padding:13px 15px;border-radius:12px;
+    border:1px solid var(--line);
+    background:#0e0e0e;color:var(--txt);
+    font-family:inherit;font-size:14px;text-align:left;direction:ltr;
+    margin-bottom:12px;
+  }
+  .qr-input:focus{outline:none;border-color:var(--gold)}
+  .btn{
+    width:100%;padding:13px;border:none;border-radius:12px;
+    background:linear-gradient(135deg,var(--gold),var(--gold-soft));
+    color:#1a1400;font-family:inherit;font-weight:900;font-size:15px;
+    cursor:pointer;transition:filter .15s ease;
+  }
+  .btn:hover{filter:brightness(1.08)}
+  .btn.ghost{
+    background:transparent;border:1px solid var(--gold);
+    color:var(--gold);margin-top:10px;
+  }
+  #qrHolder{
+    display:none;margin-top:18px;
+    background:#fff;padding:16px;border-radius:16px;
+    width:fit-content;margin-inline:auto;
+  }
+  #qrHolder canvas{display:block}
+
+  .foot{text-align:center;color:var(--muted);font-size:12px;margin-top:28px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============================================================
+       👤 زانیاری پرۆفایل
+       ============================================================ -->
+  <div class="head">
+    <div class="avatar">
+      <!-- بۆ وێنە: <img src="me.jpg" alt=""> بەکاربهێنە لە جیاتی span -->
+      <span>ب</span>
+    </div>
+    <div class="name">بەهەند</div>
+    <div class="bio">هەموو لینکەکانم لە یەک شوێن</div>
+  </div>
+
+  <!-- ============================================================
+       🔗 ئەکاونتەکان
+       دوگمەکان بەخۆکاری دروست دەبن لەسەر بنەمای LINKS لە خوارەوە
+       ============================================================ -->
+  <div class="links" id="links"></div>
+
+  <!-- ============================================================
+       📷 دروستکردنی QR
+       ============================================================ -->
+  <div class="qr-box">
+    <h2>دروستکردنی QR Code</h2>
+    <p>
+      دوای ئەوەی ئەم پەڕەیە هۆست دەکەیت، لینکی تەواوی پەڕەکە لێرە دابنێ<br>
+      (بۆ نموونە: https://your-name.web.app) و دوگمەکە دابگرە.
+    </p>
+    <input class="qr-input" id="qrUrl" placeholder="https://..." dir="ltr">
+    <button class="btn" onclick="makeQR()">دروستکردنی QR</button>
+    <div id="qrHolder"></div>
+    <button class="btn ghost" id="dlBtn" style="display:none" onclick="downloadQR()">داونلۆدکردن (PNG)</button>
+  </div>
+
+  <div class="foot">Built with ITGate co</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+<script>
+/* ================================================================
+   ⚙️ لێرەدا ئەکاونتەکانت پڕ بکەرەوە
+   ----------------------------------------------------------------
+   • هەر ئەکاونتێک کە نەتەوێت، تەنها url ـەکەی بەتاڵ بهێڵەوە ("")
+   • فۆرماتی هەر یەکێک لە خوارەوە ڕوونکراوەتەوە
+   ================================================================ */
+const LINKS = [
+  {
+    name:"فەیسبووک",
+    color:"#1877F2",
+    // لینکی پرۆفایلەکەت بەتەواوی  ← ئەمە نموونەیە، دواتر بیگۆڕە
+    url:"https://facebook.com/zuck",
+    icon:'<svg viewBox="0 0 24 24"><path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.96.93-1.96 1.89v2.25h3.33l-.53 3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07"/></svg>'
+  },
+  {
+    name:"ئینستاگرام",
+    color:"#E4405F",
+    // https://instagram.com/USERNAME  ← ئەمە نموونەیە، دواتر بیگۆڕە
+    url:"https://instagram.com/instagram",
+    icon:'<svg viewBox="0 0 24 24"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16M12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63c-.79.3-1.46.72-2.12 1.38A5.9 5.9 0 0 0 .63 4.14c-.3.76-.5 1.64-.56 2.91C.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.3.79.72 1.46 1.38 2.12.66.66 1.33 1.08 2.12 1.38.76.3 1.64.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.91-.56a5.9 5.9 0 0 0 2.12-1.38 5.9 5.9 0 0 0 1.38-2.12c.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91a5.9 5.9 0 0 0-1.38-2.12A5.9 5.9 0 0 0 19.86.63c-.76-.3-1.64-.5-2.91-.56C15.67.01 15.26 0 12 0m0 5.84A6.16 6.16 0 1 0 18.16 12 6.16 6.16 0 0 0 12 5.84m0 10.16A4 4 0 1 1 16 12a4 4 0 0 1-4 4m6.41-10.4a1.44 1.44 0 1 0 1.44 1.44 1.44 1.44 0 0 0-1.44-1.44"/></svg>'
+  },
+  {
+    name:"سناپ چات",
+    color:"#000000",
+    // https://snapchat.com/add/USERNAME  ← ئەمە نموونەیە، دواتر بیگۆڕە
+    url:"https://snapchat.com/add/team.snapchat",
+    icon:'<svg viewBox="0 0 24 24" fill="#FFFC00"><path d="M12.02 2c2.5.02 4.6 1.55 5.29 3.9.24.85.18 1.72.13 2.58-.01.14-.02.28-.03.42.09.05.22.06.35.02.2-.07.42-.16.63-.16.32 0 .61.13.75.4.14.28.09.6-.13.86-.2.24-.5.4-.8.53-.14.06-.29.11-.43.17-.17.06-.34.13-.36.32-.02.15.07.29.15.42.5.83 1.3 1.4 2.19 1.72.24.09.5.13.5.44 0 .35-.42.5-.7.6-.9.31-1.86.16-2.77.4-.24.06-.29.28-.36.5-.05.16-.11.34-.29.4-.24.08-.5-.02-.74-.09-.7-.2-1.42-.28-2.14-.14-.7.14-1.28.62-1.94.9-.34.14-.7.24-1.07.24-.37 0-.73-.1-1.07-.24-.66-.28-1.24-.76-1.94-.9-.72-.14-1.44-.06-2.14.14-.24.07-.5.17-.74.09-.18-.06-.24-.24-.29-.4-.07-.22-.12-.44-.36-.5-.91-.24-1.87-.09-2.77-.4-.28-.1-.7-.25-.7-.6 0-.31.26-.35.5-.44.89-.32 1.69-.89 2.19-1.72.08-.13.17-.27.15-.42-.02-.19-.19-.26-.36-.32-.14-.06-.29-.11-.43-.17-.3-.13-.6-.29-.8-.53-.22-.26-.27-.58-.13-.86.14-.27.43-.4.75-.4.21 0 .43.09.63.16.13.04.26.03.35-.02-.01-.14-.02-.28-.03-.42-.05-.86-.11-1.73.13-2.58C7.4 3.55 9.5 2.02 12 2h.02Z"/></svg>'
+  },
+  {
+    name:"واتساپ",
+    color:"#25D366",
+    // https://wa.me/964XXXXXXXXXX  (کۆدی وڵات + ژمارە، بێ + و بێ 0ی سەرەتا) ← نموونە
+    url:"https://wa.me/9647501234567",
+    icon:'<svg viewBox="0 0 24 24"><path d="M17.5 14.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.14-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.06 2.88 1.21 3.08c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.63.71.22 1.36.19 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.7.25-1.29.17-1.42-.07-.13-.27-.2-.57-.35M12.05 21.7h-.01a9.6 9.6 0 0 1-4.9-1.34l-.35-.21-3.65.96.97-3.56-.23-.37a9.55 9.55 0 0 1-1.46-5.08c0-5.29 4.3-9.59 9.6-9.59 2.56 0 4.97 1 6.78 2.81a9.53 9.53 0 0 1 2.81 6.79c0 5.29-4.31 9.59-9.6 9.59M20.5 3.5A11.4 11.4 0 0 0 12.05 0C5.68 0 .5 5.18.5 11.55c0 2.03.53 4.02 1.54 5.77L.4 24l6.83-1.79a11.5 11.5 0 0 0 5.5 1.4h.01c6.37 0 11.55-5.18 11.55-11.55 0-3.09-1.2-5.99-3.39-8.18"/></svg>'
+  },
+  {
+    name:"ڤایبەر",
+    color:"#7360F2",
+    // viber://chat?number=%2B964XXXXXXXXXX  (%2B = +، پاشان کۆدی وڵات + ژمارە) ← نموونە
+    url:"viber://chat?number=%2B9647501234567",
+    icon:'<svg viewBox="0 0 24 24"><path d="M11.4 0C9.5.03 5.4.34 3.1 2.45 1.4 4.13 .8 6.6.73 9.66c-.06 3.05-.14 8.78 5.38 10.33v2.37s-.04.96.59 1.15c.77.24 1.22-.49 1.95-1.28.4-.43.95-1.07 1.37-1.55 3.77.32 6.67-.41 7-.52.76-.25 5.07-.8 5.77-6.53.72-5.9-.35-9.63-2.28-11.31l-.01-.01C19.85.72 15.98.16 15.98.16S15.4 0 11.4 0m.13 2.02c3.4 0 6.09.51 6.51.7.5.22 1.44.79 2.09 2.29.54 1.24.78 3.15.79 5.5.01 2.36-.24 4.27-.79 5.5-.65 1.5-1.59 2.07-2.09 2.29-.42.19-3.11.7-6.51.7-.02 0-.04-.01-.06-.01-.6-.62-1.16-1.17-1.42-1.4-.62-.55-1.02-.55-1.02-.55l-.63.02v3.85c-.86-.9-1.73-1.79-2.53-2.62-1.53-1.58-1.5-3.42-1.46-5.98.03-2.55.14-4.61 1.55-6 1.9-1.75 5.38-1.98 7.04-1.98zm.29 2.68c-.16 0-.29.13-.29.29 0 .16.12.29.29.29 1.5.01 2.72.5 3.71 1.47.98.98 1.46 2.28 1.48 3.99 0 .16.13.29.29.29.16 0 .29-.13.29-.29-.02-1.83-.55-3.31-1.65-4.4-1.1-1.09-2.5-1.63-4.12-1.64m-2.35.56c-.15-.02-.35.02-.63.14 0 0-.51.19-.79.4-.23.17-.44.4-.53.53-.16.24-.28.62-.2.98.12.53.4 1.5 1.4 3.02.5.76 1.05 1.4 1.57 1.9.5.5 1.5 1.11 2.32 1.51 1.51.75 2.5.79 3.03.66.36-.09.68-.35.83-.6.09-.15.15-.37.14-.53-.02-.31-.13-.4-.34-.55-.31-.22-1.09-.63-1.32-.71-.24-.09-.42-.09-.6.15-.13.16-.44.5-.53.6-.09.09-.23.11-.34.06-.5-.2-.98-.5-1.4-.9-.4-.4-.72-.85-.94-1.28-.06-.11-.03-.25.06-.34.09-.09.19-.22.28-.32.09-.1.14-.19.2-.31.1-.19.03-.36-.03-.5-.08-.19-.5-1.21-.68-1.62-.09-.2-.22-.36-.42-.4zm3.06 1c-.14 0-.26.11-.26.26 0 .14.11.26.26.26.79 0 1.42.24 1.94.77.53.53.77 1.15.77 1.94 0 .14.11.26.26.26.14 0 .26-.12.26-.26 0-.9-.29-1.66-.92-2.29-.63-.63-1.4-.94-2.3-.94zm.13 1.44c-.15-.01-.28.1-.29.25-.01.14.1.27.25.28.35.03.6.14.77.32.16.17.27.42.31.79.01.14.13.25.28.24.14-.01.25-.14.24-.28-.05-.44-.2-.81-.47-1.09-.28-.29-.65-.45-1.09-.51z"/></svg>'
+  },
+  {
+    name:"تێلیگرام",
+    color:"#26A5E4",
+    // https://t.me/USERNAME  ← ئەمە نموونەیە، دواتر بیگۆڕە
+    url:"https://t.me/telegram",
+    icon:'<svg viewBox="0 0 24 24"><path d="M23.91 3.79 20.3 20.84c-.25 1.21-.98 1.5-2 .94l-5.5-4.07-2.66 2.57c-.3.3-.55.56-1.1.56l.38-5.56 10.1-9.13c.44-.39-.1-.61-.68-.22L6.62 13.31l-5.45-1.71c-1.18-.37-1.2-1.18.25-1.75l21.3-8.22c.99-.36 1.85.22 1.53 1.72z"/></svg>'
+  }
+];
+
+/* ---- دروستکردنی دوگمەکان بەخۆکاری ---- */
+const box = document.getElementById('links');
+LINKS.forEach(l=>{
+  if(!l.url || l.url.includes('USERNAME') || l.url.includes('XXXX')) return; // دوگمە پڕنەکراوەکان دەشاردرێنەوە
+  const a = document.createElement('a');
+  a.className = 'link';
+  a.href = l.url;
+  a.target = '_blank';
+  a.rel = 'noopener';
+  a.innerHTML =
+    '<span class="ico" style="background:'+l.color+'">'+l.icon+'</span>'+
+    '<span class="label">'+l.name+'</span>'+
+    '<span class="chev">‹</span>';
+  box.appendChild(a);
+});
+if(!box.children.length){
+  box.innerHTML = '<p style="color:#9a9488;text-align:center;font-size:14px;line-height:1.8">'+
+    'هێشتا هیچ ئەکاونتێک پڕنەکراوەتەوە.<br>لە کۆدەکەدا (LINKS) ناوی بەکارهێنەر و ژمارەکانت دابنێ.</p>';
+}
+
+/* ---- جێنەرەیتەری QR ---- */
+let qr;
+function makeQR(){
+  const url = document.getElementById('qrUrl').value.trim();
+  if(!url){ alert('تکایە لینکەکە دابنێ'); return; }
+  const holder = document.getElementById('qrHolder');
+  holder.innerHTML = '<canvas id="qrCanvas"></canvas>';
+  qr = new QRious({
+    element: document.getElementById('qrCanvas'),
+    value: url,
+    size: 260,
+    level: 'H',
+    foreground: '#0a0a0a',
+    background: '#ffffff'
+  });
+  holder.style.display = 'block';
+  document.getElementById('dlBtn').style.display = 'block';
+}
+function downloadQR(){
+  if(!qr) return;
+  const a = document.createElement('a');
+  a.download = 'my-qr.png';
+  a.href = document.getElementById('qrCanvas').toDataURL('image/png');
+  a.click();
+}
+</script>
+</body>
+</html>

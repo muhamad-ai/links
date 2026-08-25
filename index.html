@@ -120,42 +120,14 @@
 <div class="wrap">
 
   <!-- ============================================================
-       👤 زانیاری پرۆفایل
-       ============================================================ -->
-  <div class="head">
-    <div class="avatar">
-      <!-- بۆ وێنە: <img src="me.jpg" alt=""> بەکاربهێنە لە جیاتی span -->
-      <span>ب</span>
-    </div>
-    <div class="name">بەهەند</div>
-    <div class="bio">هەموو لینکەکانم لە یەک شوێن</div>
-  </div>
-
-  <!-- ============================================================
        🔗 ئەکاونتەکان
        دوگمەکان بەخۆکاری دروست دەبن لەسەر بنەمای LINKS لە خوارەوە
        ============================================================ -->
   <div class="links" id="links"></div>
 
-  <!-- ============================================================
-       📷 دروستکردنی QR
-       ============================================================ -->
-  <div class="qr-box">
-    <h2>دروستکردنی QR Code</h2>
-    <p>
-      دوای ئەوەی ئەم پەڕەیە هۆست دەکەیت، لینکی تەواوی پەڕەکە لێرە دابنێ<br>
-      (بۆ نموونە: https://your-name.web.app) و دوگمەکە دابگرە.
-    </p>
-    <input class="qr-input" id="qrUrl" placeholder="https://..." dir="ltr">
-    <button class="btn" onclick="makeQR()">دروستکردنی QR</button>
-    <div id="qrHolder"></div>
-    <button class="btn ghost" id="dlBtn" style="display:none" onclick="downloadQR()">داونلۆدکردن (PNG)</button>
-  </div>
-
   <div class="foot">Built with ITGate co</div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
 <script>
 /* ================================================================
    ⚙️ لێرەدا ئەکاونتەکانت پڕ بکەرەوە
@@ -226,32 +198,6 @@ LINKS.forEach(l=>{
 if(!box.children.length){
   box.innerHTML = '<p style="color:#9a9488;text-align:center;font-size:14px;line-height:1.8">'+
     'هێشتا هیچ ئەکاونتێک پڕنەکراوەتەوە.<br>لە کۆدەکەدا (LINKS) ناوی بەکارهێنەر و ژمارەکانت دابنێ.</p>';
-}
-
-/* ---- جێنەرەیتەری QR ---- */
-let qr;
-function makeQR(){
-  const url = document.getElementById('qrUrl').value.trim();
-  if(!url){ alert('تکایە لینکەکە دابنێ'); return; }
-  const holder = document.getElementById('qrHolder');
-  holder.innerHTML = '<canvas id="qrCanvas"></canvas>';
-  qr = new QRious({
-    element: document.getElementById('qrCanvas'),
-    value: url,
-    size: 260,
-    level: 'H',
-    foreground: '#0a0a0a',
-    background: '#ffffff'
-  });
-  holder.style.display = 'block';
-  document.getElementById('dlBtn').style.display = 'block';
-}
-function downloadQR(){
-  if(!qr) return;
-  const a = document.createElement('a');
-  a.download = 'my-qr.png';
-  a.href = document.getElementById('qrCanvas').toDataURL('image/png');
-  a.click();
 }
 </script>
 </body>

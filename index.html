@@ -7,22 +7,21 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;900&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-  /* ============================================================
-     🎨 ڕەنگەکان
-     ============================================================ */
   :root{
-    --bg:#080807;
-    --card:#161513;
-    --card-2:#1e1c19;
+    --bg:#070706;
+    --card-1:#17151230;
+    --card-top:#1b1916;
+    --card-bot:#0e0d0b;
     --gold:#d4af37;
-    --gold-soft:#e8c766;
-    --line:rgba(212,175,55,.20);
-    --line-hi:rgba(212,175,55,.55);
-    --txt:#f6f1e6;
-    --muted:#9a9488;
+    --gold-soft:#ecd08a;
+    --gold-deep:#a8842a;
+    --line:rgba(212,175,55,.18);
+    --line-hi:rgba(236,208,138,.6);
+    --txt:#f7f2e7;
+    --muted:#a49d90;
   }
 
   *{box-sizing:border-box;margin:0;padding:0}
@@ -32,103 +31,89 @@
     background:var(--bg);
     color:var(--txt);
     min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:flex-start;
-    padding:46px 18px 60px;
-    overflow-x:hidden;
-    position:relative;
+    display:flex;justify-content:center;align-items:flex-start;
+    padding:34px 18px 60px;
+    overflow-x:hidden;position:relative;
+  }
+  body.en{font-family:'Poppins',system-ui,sans-serif}
+
+  /* بەکگراوندی جوڵاو */
+  .glow{position:fixed;border-radius:50%;filter:blur(95px);z-index:0;pointer-events:none}
+  .glow.g1{width:440px;height:440px;top:-150px;left:50%;transform:translateX(-50%);
+    background:radial-gradient(circle, rgba(212,175,55,.34), transparent 70%);
+    animation:float1 12s ease-in-out infinite;opacity:.55}
+  .glow.g2{width:320px;height:320px;bottom:-90px;right:-70px;
+    background:radial-gradient(circle, rgba(168,132,42,.28), transparent 70%);
+    animation:float2 15s ease-in-out infinite;opacity:.5}
+  @keyframes float1{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(28px)}}
+  @keyframes float2{0%,100%{transform:translate(0,0)}50%{transform:translate(-34px,-26px)}}
+  /* دانەدانەی ناسک لەسەر هەموو پەڕەکە */
+  body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.035;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+  .wrap{width:100%;max-width:430px;position:relative;z-index:1}
+
+  /* گۆڕەری زمان */
+  .lang{
+    display:flex;justify-content:center;margin-bottom:26px;
+    animation:rise .6s cubic-bezier(.2,.8,.2,1) forwards;opacity:0;transform:translateY(14px);
+  }
+  .lang-pill{
+    display:inline-flex;background:linear-gradient(180deg,#191713,#0e0d0b);
+    border:1px solid var(--line);border-radius:100px;padding:5px;gap:4px;
+    box-shadow:0 8px 22px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.04);
+  }
+  .lang-pill button{
+    border:none;background:transparent;color:var(--muted);
+    font-family:inherit;font-size:14px;font-weight:600;
+    padding:8px 20px;border-radius:100px;cursor:pointer;
+    transition:color .25s ease, background .3s ease;
+  }
+  .lang-pill button.active{
+    color:#1a1400;
+    background:linear-gradient(135deg,var(--gold),var(--gold-soft));
+    box-shadow:0 4px 12px rgba(212,175,55,.32);
   }
 
-  /* ---------- ڕووناکی جوڵاوی پاشبنەما ---------- */
-  .glow{
-    position:fixed;
-    border-radius:50%;
-    filter:blur(90px);
-    opacity:.5;
-    z-index:0;
-    pointer-events:none;
-  }
-  .glow.g1{
-    width:420px;height:420px;top:-140px;left:50%;transform:translateX(-50%);
-    background:radial-gradient(circle, rgba(212,175,55,.38), transparent 70%);
-    animation:float1 11s ease-in-out infinite;
-  }
-  .glow.g2{
-    width:300px;height:300px;bottom:-80px;right:-60px;
-    background:radial-gradient(circle, rgba(232,199,102,.22), transparent 70%);
-    animation:float2 14s ease-in-out infinite;
-  }
-  @keyframes float1{
-    0%,100%{transform:translateX(-50%) translateY(0)}
-    50%{transform:translateX(-50%) translateY(26px)}
-  }
-  @keyframes float2{
-    0%,100%{transform:translate(0,0)}
-    50%{transform:translate(-30px,-24px)}
-  }
-
-  .wrap{width:100%;max-width:440px;position:relative;z-index:1}
-
-  /* ---------- دوگمەکانی ئەکاونت ---------- */
+  /* دوگمەکان */
   .links{display:flex;flex-direction:column;gap:14px}
-
   .link{
-    position:relative;
-    display:flex;align-items:center;gap:15px;
-    background:linear-gradient(180deg, var(--card), #100f0d);
-    border:1px solid var(--line);
-    border-radius:18px;
-    padding:16px 18px;
-    text-decoration:none;color:var(--txt);
-    font-size:17px;font-weight:700;
+    position:relative;display:flex;align-items:center;gap:15px;
+    background:linear-gradient(180deg,var(--card-top),var(--card-bot));
+    border:1px solid var(--line);border-radius:18px;padding:16px 18px;
+    text-decoration:none;color:var(--txt);font-size:17px;font-weight:600;
     overflow:hidden;
-    transition:transform .25s cubic-bezier(.2,.8,.2,1),
-               border-color .25s ease,
-               box-shadow .25s ease;
-    /* ئەنیمەیشنی هاتنەخوارەوە */
-    opacity:0;
-    transform:translateY(18px);
-    animation:rise .6s cubic-bezier(.2,.8,.2,1) forwards;
+    box-shadow:0 4px 18px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.045);
+    transition:transform .28s cubic-bezier(.2,.8,.2,1),border-color .28s ease,box-shadow .28s ease;
+    opacity:0;transform:translateY(20px);
+    animation:rise .65s cubic-bezier(.2,.8,.2,1) forwards;
   }
-  @keyframes rise{ to{opacity:1;transform:translateY(0)} }
-
-  /* درەوشانەوەی نەرم لەکاتی دەستلێدان */
-  .link::before{
-    content:"";
-    position:absolute;inset:0;
-    background:linear-gradient(120deg, transparent 30%, rgba(232,199,102,.14) 50%, transparent 70%);
-    transform:translateX(-130%);
-    transition:transform .7s ease;
-  }
-  .link:hover{
-    transform:translateY(-3px);
-    border-color:var(--line-hi);
-    box-shadow:0 14px 34px rgba(0,0,0,.55), 0 0 0 1px rgba(212,175,55,.12);
-  }
-  .link:hover::before{transform:translateX(130%)}
+  @keyframes rise{to{opacity:1;transform:translateY(0)}}
+  /* هێڵی زێڕینی سەرەوە */
+  .link::after{content:"";position:absolute;top:0;left:12%;right:12%;height:1px;
+    background:linear-gradient(90deg,transparent,rgba(236,208,138,.5),transparent);opacity:.6}
+  .link:hover{transform:translateY(-3px);border-color:var(--line-hi);
+    box-shadow:0 16px 38px rgba(0,0,0,.6), 0 0 0 1px rgba(212,175,55,.14)}
   .link:active{transform:translateY(-1px)}
 
-  .ico{
-    width:46px;height:46px;border-radius:13px;flex:0 0 auto;
+  .ico{width:46px;height:46px;border-radius:13px;flex:0 0 auto;
     display:flex;align-items:center;justify-content:center;
-    box-shadow:0 6px 16px rgba(0,0,0,.4);
-    transition:transform .25s cubic-bezier(.2,.8,.2,1);
-  }
-  .link:hover .ico{transform:scale(1.08) rotate(-3deg)}
+    box-shadow:0 6px 16px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.18);
+    transition:transform .28s cubic-bezier(.2,.8,.2,1)}
+  .link:hover .ico{transform:scale(1.09) rotate(-3deg)}
   .ico svg{width:25px;height:25px;fill:#fff}
 
-  .link .label{flex:1}
-  .link .chev{
-    color:var(--gold);font-size:22px;opacity:.5;
-    transition:transform .25s ease, opacity .25s ease;
-  }
+  .link .label{flex:1;letter-spacing:.2px}
+  .link .chev{color:var(--gold);font-size:22px;opacity:.5;
+    transition:transform .28s ease,opacity .28s ease}
   .link:hover .chev{transform:translateX(-6px);opacity:1}
+  /* لە ئینگلیزیدا ئیشارەتەکە ئاراستەی پێچەوانە */
+  body.en .link .chev{transform:scaleX(-1)}
+  body.en .link:hover .chev{transform:scaleX(-1) translateX(-6px)}
 
   @media (prefers-reduced-motion: reduce){
-    .link{animation:none;opacity:1;transform:none}
+    .link,.lang{animation:none;opacity:1;transform:none}
     .glow{animation:none}
-    .link::before{display:none}
   }
 </style>
 </head>
@@ -137,6 +122,12 @@
   <div class="glow g2"></div>
 
   <div class="wrap">
+    <div class="lang">
+      <div class="lang-pill">
+        <button id="btnKu" class="active" onclick="setLang('ku')">کوردی</button>
+        <button id="btnEn" onclick="setLang('en')">English</button>
+      </div>
+    </div>
     <div class="links" id="links"></div>
   </div>
 
@@ -145,75 +136,85 @@
    ⚙️ لێرەدا ئەکاونتەکانت پڕ بکەرەوە
    ----------------------------------------------------------------
    • هەر ئەکاونتێک کە نەتەوێت، تەنها url ـەکەی بەتاڵ بهێڵەوە ("")
-   • فۆرماتی هەر یەکێک لە خوارەوە ڕوونکراوەتەوە
+   • name = ناوی کوردی، en = ناوی ئینگلیزی
    ================================================================ */
 const LINKS = [
   {
-    name:"فەیسبووک",
-    color:"#1877F2",
-    // لینکی پرۆفایلەکەت بەتەواوی  ← ئەمە نموونەیە، دواتر بیگۆڕە
+    name:"فەیسبووک", en:"Facebook", color:"#1877F2",
+    bg:"linear-gradient(180deg, #1e88ff, #1877F2)",
     url:"https://facebook.com/zuck",
     icon:'<svg viewBox="0 0 24 24"><path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.96.93-1.96 1.89v2.25h3.33l-.53 3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07"/></svg>'
   },
   {
-    name:"ئینستاگرام",
-    color:"#E4405F",
-    // https://instagram.com/USERNAME  ← ئەمە نموونەیە، دواتر بیگۆڕە
+    name:"ئینستاگرام", en:"Instagram", color:"#E4405F",
+    bg:"radial-gradient(circle at 30% 108%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%)",
     url:"https://instagram.com/instagram",
     icon:'<svg viewBox="0 0 24 24"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16M12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63c-.79.3-1.46.72-2.12 1.38A5.9 5.9 0 0 0 .63 4.14c-.3.76-.5 1.64-.56 2.91C.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.3.79.72 1.46 1.38 2.12.66.66 1.33 1.08 2.12 1.38.76.3 1.64.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.91-.56a5.9 5.9 0 0 0 2.12-1.38 5.9 5.9 0 0 0 1.38-2.12c.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91a5.9 5.9 0 0 0-1.38-2.12A5.9 5.9 0 0 0 19.86.63c-.76-.3-1.64-.5-2.91-.56C15.67.01 15.26 0 12 0m0 5.84A6.16 6.16 0 1 0 18.16 12 6.16 6.16 0 0 0 12 5.84m0 10.16A4 4 0 1 1 16 12a4 4 0 0 1-4 4m6.41-10.4a1.44 1.44 0 1 0 1.44 1.44 1.44 1.44 0 0 0-1.44-1.44"/></svg>'
   },
   {
-    name:"سناپ چات",
-    color:"#0b0b0b",
-    // https://snapchat.com/add/USERNAME  ← ئەمە نموونەیە، دواتر بیگۆڕە
+    name:"سناپ چات", en:"Snapchat", color:"#FFFC00",
     url:"https://snapchat.com/add/team.snapchat",
-    icon:'<svg viewBox="0 0 24 24" fill="#FFFC00"><path d="M12.02 2c2.5.02 4.6 1.55 5.29 3.9.24.85.18 1.72.13 2.58-.01.14-.02.28-.03.42.09.05.22.06.35.02.2-.07.42-.16.63-.16.32 0 .61.13.75.4.14.28.09.6-.13.86-.2.24-.5.4-.8.53-.14.06-.29.11-.43.17-.17.06-.34.13-.36.32-.02.15.07.29.15.42.5.83 1.3 1.4 2.19 1.72.24.09.5.13.5.44 0 .35-.42.5-.7.6-.9.31-1.86.16-2.77.4-.24.06-.29.28-.36.5-.05.16-.11.34-.29.4-.24.08-.5-.02-.74-.09-.7-.2-1.42-.28-2.14-.14-.7.14-1.28.62-1.94.9-.34.14-.7.24-1.07.24-.37 0-.73-.1-1.07-.24-.66-.28-1.24-.76-1.94-.9-.72-.14-1.44-.06-2.14.14-.24.07-.5.17-.74.09-.18-.06-.24-.24-.29-.4-.07-.22-.12-.44-.36-.5-.91-.24-1.87-.09-2.77-.4-.28-.1-.7-.25-.7-.6 0-.31.26-.35.5-.44.89-.32 1.69-.89 2.19-1.72.08-.13.17-.27.15-.42-.02-.19-.19-.26-.36-.32-.14-.06-.29-.11-.43-.17-.3-.13-.6-.29-.8-.53-.22-.26-.27-.58-.13-.86.14-.27.43-.4.75-.4.21 0 .43.09.63.16.13.04.26.03.35-.02-.01-.14-.02-.28-.03-.42-.05-.86-.11-1.73.13-2.58C7.4 3.55 9.5 2.02 12 2h.02Z"/></svg>'
+    icon:'<svg viewBox="0 0 24 24" fill="#000"><path d="M12.206.793c.99 0 4.347.276 5.93 3.821.529 1.193.403 3.219.299 4.847l-.003.06c-.012.18-.022.345-.03.51.075.045.203.09.401.09.3-.016.659-.12 1.033-.301.165-.088.344-.104.464-.104.182 0 .359.029.509.09.45.149.734.479.734.838.015.449-.39.839-1.213 1.168-.089.029-.209.075-.344.119-.45.135-1.139.36-1.333.81-.09.224-.061.524.12.868l.015.015c.06.136 1.526 3.475 4.791 4.014.255.044.435.27.42.509 0 .075-.015.149-.045.225-.24.569-1.273.988-3.146 1.271-.059.091-.12.375-.164.57-.029.179-.074.36-.134.553-.076.271-.27.405-.555.405h-.03c-.135 0-.313-.031-.538-.074-.36-.075-.765-.135-1.273-.135-.3 0-.599.015-.913.074-.6.104-1.123.464-1.723.884-.853.599-1.826 1.288-3.294 1.288-.06 0-.119-.015-.18-.015h-.149c-1.468 0-2.427-.675-3.279-1.288-.599-.42-1.107-.779-1.707-.884-.314-.045-.629-.074-.928-.074-.54 0-.958.089-1.272.149-.211.043-.391.074-.54.074-.374 0-.523-.224-.583-.42-.061-.192-.09-.389-.135-.567-.046-.181-.105-.494-.166-.57-1.918-.222-2.95-.642-3.189-1.226-.031-.063-.052-.15-.055-.225-.015-.243.165-.465.42-.509 3.264-.54 4.73-3.879 4.791-4.02l.016-.029c.18-.345.224-.645.119-.869-.195-.434-.884-.658-1.332-.809-.121-.029-.24-.074-.346-.119-1.107-.435-1.257-.93-1.197-1.273.09-.479.674-.793 1.168-.793.146 0 .27.029.383.074.42.194.789.3 1.104.3.234 0 .384-.06.465-.105l-.046-.569c-.098-1.626-.225-3.651.307-4.837C7.392 1.077 10.739.807 11.727.807l.419-.015h.06z"/></svg>'
   },
   {
-    name:"واتساپ",
-    color:"#25D366",
-    // https://wa.me/964XXXXXXXXXX  (کۆدی وڵات + ژمارە، بێ + و بێ 0ی سەرەتا) ← نموونە
+    name:"واتساپ", en:"WhatsApp", color:"#25D366",
+    bg:"linear-gradient(180deg, #2be06f, #1faf52)",
     url:"https://wa.me/9647501234567",
     icon:'<svg viewBox="0 0 24 24"><path d="M17.5 14.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.14-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.06 2.88 1.21 3.08c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.63.71.22 1.36.19 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.7.25-1.29.17-1.42-.07-.13-.27-.2-.57-.35M12.05 21.7h-.01a9.6 9.6 0 0 1-4.9-1.34l-.35-.21-3.65.96.97-3.56-.23-.37a9.55 9.55 0 0 1-1.46-5.08c0-5.29 4.3-9.59 9.6-9.59 2.56 0 4.97 1 6.78 2.81a9.53 9.53 0 0 1 2.81 6.79c0 5.29-4.31 9.59-9.6 9.59M20.5 3.5A11.4 11.4 0 0 0 12.05 0C5.68 0 .5 5.18.5 11.55c0 2.03.53 4.02 1.54 5.77L.4 24l6.83-1.79a11.5 11.5 0 0 0 5.5 1.4h.01c6.37 0 11.55-5.18 11.55-11.55 0-3.09-1.2-5.99-3.39-8.18"/></svg>'
   },
   {
-    name:"ڤایبەر",
-    color:"#7360F2",
-    // viber://chat?number=%2B964XXXXXXXXXX  (%2B = +، پاشان کۆدی وڵات + ژمارە) ← نموونە
+    name:"ڤایبەر", en:"Viber", color:"#7360F2",
+    bg:"linear-gradient(180deg, #8a6fe8, #665CAC)",
     url:"viber://chat?number=%2B9647501234567",
-    icon:'<svg viewBox="0 0 24 24"><path d="M11.4 0C9.5.03 5.4.34 3.1 2.45 1.4 4.13 .8 6.6.73 9.66c-.06 3.05-.14 8.78 5.38 10.33v2.37s-.04.96.59 1.15c.77.24 1.22-.49 1.95-1.28.4-.43.95-1.07 1.37-1.55 3.77.32 6.67-.41 7-.52.76-.25 5.07-.8 5.77-6.53.72-5.9-.35-9.63-2.28-11.31l-.01-.01C19.85.72 15.98.16 15.98.16S15.4 0 11.4 0m.13 2.02c3.4 0 6.09.51 6.51.7.5.22 1.44.79 2.09 2.29.54 1.24.78 3.15.79 5.5.01 2.36-.24 4.27-.79 5.5-.65 1.5-1.59 2.07-2.09 2.29-.42.19-3.11.7-6.51.7-.02 0-.04-.01-.06-.01-.6-.62-1.16-1.17-1.42-1.4-.62-.55-1.02-.55-1.02-.55l-.63.02v3.85c-.86-.9-1.73-1.79-2.53-2.62-1.53-1.58-1.5-3.42-1.46-5.98.03-2.55.14-4.61 1.55-6 1.9-1.75 5.38-1.98 7.04-1.98zm.29 2.68c-.16 0-.29.13-.29.29 0 .16.12.29.29.29 1.5.01 2.72.5 3.71 1.47.98.98 1.46 2.28 1.48 3.99 0 .16.13.29.29.29.16 0 .29-.13.29-.29-.02-1.83-.55-3.31-1.65-4.4-1.1-1.09-2.5-1.63-4.12-1.64m-2.35.56c-.15-.02-.35.02-.63.14 0 0-.51.19-.79.4-.23.17-.44.4-.53.53-.16.24-.28.62-.2.98.12.53.4 1.5 1.4 3.02.5.76 1.05 1.4 1.57 1.9.5.5 1.5 1.11 2.32 1.51 1.51.75 2.5.79 3.03.66.36-.09.68-.35.83-.6.09-.15.15-.37.14-.53-.02-.31-.13-.4-.34-.55-.31-.22-1.09-.63-1.32-.71-.24-.09-.42-.09-.6.15-.13.16-.44.5-.53.6-.09.09-.23.11-.34.06-.5-.2-.98-.5-1.4-.9-.4-.4-.72-.85-.94-1.28-.06-.11-.03-.25.06-.34.09-.09.19-.22.28-.32.09-.1.14-.19.2-.31.1-.19.03-.36-.03-.5-.08-.19-.5-1.21-.68-1.62-.09-.2-.22-.36-.42-.4zm3.06 1c-.14 0-.26.11-.26.26 0 .14.11.26.26.26.79 0 1.42.24 1.94.77.53.53.77 1.15.77 1.94 0 .14.11.26.26.26.14 0 .26-.12.26-.26 0-.9-.29-1.66-.92-2.29-.63-.63-1.4-.94-2.3-.94zm.13 1.44c-.15-.01-.28.1-.29.25-.01.14.1.27.25.28.35.03.6.14.77.32.16.17.27.42.31.79.01.14.13.25.28.24.14-.01.25-.14.24-.28-.05-.44-.2-.81-.47-1.09-.28-.29-.65-.45-1.09-.51z"/></svg>'
+    icon:'<svg viewBox="0 0 24 24"><path d="M11.4 0C9.473.028 5.333.344 3.02 2.467 1.302 4.187.696 6.7.633 9.817.57 12.933.488 18.776 6.12 20.36h.003l-.004 2.416s-.037.977.61 1.177c.777.242 1.234-.5 1.98-1.302.407-.44.972-1.084 1.397-1.58 3.85.326 6.812-.416 7.15-.525.776-.252 5.176-.816 5.892-6.657.74-6.02-.36-9.83-2.34-11.546-.596-.55-3.006-2.3-8.375-2.323 0 0-.395-.025-1.037-.017zm.058 1.693c.545-.004.88.017.88.017 4.542.02 6.717 1.388 7.222 1.846 1.675 1.435 2.53 4.868 1.906 9.897v.002c-.604 4.878-4.174 5.184-4.832 5.395-.28.09-2.882.737-6.153.524 0 0-2.436 2.94-3.197 3.704-.12.12-.26.167-.352.144-.13-.033-.166-.188-.165-.414l.02-4.018c-4.762-1.32-4.485-6.292-4.43-8.895.054-2.604.543-4.738 1.996-6.173 1.96-1.773 5.474-2.018 7.11-2.03zm.38 2.602c-.167 0-.303.135-.304.302 0 .167.133.303.3.305 1.624.01 2.946.537 4.028 1.592 1.073 1.046 1.62 2.468 1.633 4.334.002.167.14.3.307.3.166-.002.3-.138.3-.304-.014-1.984-.618-3.596-1.816-4.764-1.19-1.16-2.692-1.753-4.447-1.765zm-3.96.695c-.19-.032-.4.005-.616.117l-.01.002c-.43.247-.816.562-1.146.932-.002.004-.006.004-.008.008-.267.323-.42.638-.46.948-.008.046-.01.093-.007.14 0 .136.022.27.065.4l.013.01c.135.48.473 1.276 1.205 2.604.42.768.903 1.5 1.446 2.186.27.344.56.673.87.984l.132.132c.31.308.64.6.984.87.686.543 1.418 1.027 2.186 1.447 1.328.733 2.126 1.07 2.604 1.206l.01.014c.13.042.265.064.402.063.046.002.092 0 .138-.008.31-.036.627-.19.948-.46.004 0 .003-.002.008-.005.37-.33.683-.72.93-1.148l.003-.01c.225-.432.15-.842-.18-1.12-.004 0-.698-.58-1.037-.83-.36-.255-.73-.492-1.113-.71-.51-.285-1.032-.106-1.248.174l-.447.564c-.23.283-.657.246-.657.246-3.12-.796-3.955-3.955-3.955-3.955s-.037-.426.248-.656l.563-.448c.277-.215.456-.737.17-1.248-.217-.383-.454-.756-.71-1.115-.25-.34-.826-1.033-.83-1.035-.137-.165-.31-.265-.502-.297zm4.49.88c-.158.002-.29.124-.3.282-.01.167.115.312.282.324 1.16.085 2.017.466 2.645 1.15.63.688.93 1.524.906 2.57-.002.168.13.306.3.31.166.003.305-.13.31-.297.025-1.175-.334-2.193-1.067-2.994-.74-.81-1.777-1.253-3.05-1.346h-.024zm.463 1.63c-.16.002-.29.127-.3.287-.008.167.12.31.288.32.523.028.875.175 1.113.422.24.245.388.62.416 1.164.01.167.15.295.318.287.167-.008.295-.15.287-.317-.03-.644-.215-1.178-.58-1.557-.367-.378-.893-.574-1.52-.607h-.018z"/></svg>'
   },
   {
-    name:"تێلیگرام",
-    color:"#26A5E4",
-    // https://t.me/USERNAME  ← ئەمە نموونەیە، دواتر بیگۆڕە
+    name:"تێلیگرام", en:"Telegram", color:"#26A5E4",
+    bg:"linear-gradient(180deg, #2AABEE, #229ED9)",
     url:"https://t.me/telegram",
     icon:'<svg viewBox="0 0 24 24"><path d="M23.91 3.79 20.3 20.84c-.25 1.21-.98 1.5-2 .94l-5.5-4.07-2.66 2.57c-.3.3-.55.56-1.1.56l.38-5.56 10.1-9.13c.44-.39-.1-.61-.68-.22L6.62 13.31l-5.45-1.71c-1.18-.37-1.2-1.18.25-1.75l21.3-8.22c.99-.36 1.85.22 1.53 1.72z"/></svg>'
   }
 ];
 
-/* ---- دروستکردنی دوگمەکان بەخۆکاری ---- */
 const box = document.getElementById('links');
-let shown = 0;
-LINKS.forEach(l=>{
-  if(!l.url || l.url.includes('USERNAME') || l.url.includes('XXXX')) return; // پڕنەکراوەکان دەشاردرێنەوە
-  const a = document.createElement('a');
-  a.className = 'link';
-  a.href = l.url;
-  a.target = '_blank';
-  a.rel = 'noopener';
-  a.style.animationDelay = (shown * 0.09) + 's';   // هاتنەخوارەوەی پێکەوەنووسراو
-  a.innerHTML =
-    '<span class="ico" style="background:'+l.color+'">'+l.icon+'</span>'+
-    '<span class="label">'+l.name+'</span>'+
-    '<span class="chev">‹</span>';
-  box.appendChild(a);
-  shown++;
-});
-if(!shown){
-  box.innerHTML = '<p style="color:#9a9488;text-align:center;font-size:14px;line-height:1.8">'+
-    'هێشتا هیچ ئەکاونتێک پڕنەکراوەتەوە.<br>لە کۆدەکەدا (LINKS) ناوی بەکارهێنەر و ژمارەکانت دابنێ.</p>';
+let lang = 'ku';
+
+function render(){
+  box.innerHTML = '';
+  let shown = 0;
+  LINKS.forEach(l=>{
+    if(!l.url || l.url.includes('USERNAME') || l.url.includes('XXXX')) return;
+    const a = document.createElement('a');
+    a.className = 'link';
+    a.href = l.url; a.target = '_blank'; a.rel = 'noopener';
+    a.style.animationDelay = (shown * 0.09) + 's';
+    const label = (lang === 'en') ? l.en : l.name;
+    a.innerHTML =
+      '<span class="ico" style="background:'+(l.bg || l.color)+'">'+l.icon+'</span>'+
+      '<span class="label">'+label+'</span>'+
+      '<span class="chev">‹</span>';
+    box.appendChild(a);
+    shown++;
+  });
+  if(!shown){
+    box.innerHTML = '<p style="color:#a49d90;text-align:center;font-size:14px;line-height:1.8">'+
+      (lang==='en'
+        ? 'No accounts added yet.<br>Fill in your usernames/numbers in the LINKS section of the code.'
+        : 'هێشتا هیچ ئەکاونتێک پڕنەکراوەتەوە.<br>لە کۆدەکەدا (LINKS) ناوی بەکارهێنەر و ژمارەکانت دابنێ.')+'</p>';
+  }
 }
+
+function setLang(l){
+  lang = l;
+  document.body.classList.toggle('en', l === 'en');
+  document.documentElement.lang = (l === 'en') ? 'en' : 'ckb';
+  document.documentElement.dir  = (l === 'en') ? 'ltr' : 'rtl';
+  document.getElementById('btnKu').classList.toggle('active', l === 'ku');
+  document.getElementById('btnEn').classList.toggle('active', l === 'en');
+  render();
+}
+
+render();
 </script>
 </body>
 </html>

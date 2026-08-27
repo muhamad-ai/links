@@ -83,12 +83,13 @@
 
   /* کۆنترۆڵەکانی سەرەوە */
   .lang{
-    position:relative;
-    display:flex;justify-content:center;align-items:center;
-    margin-top:20px;margin-bottom:34px;
+    direction:ltr;
+    display:flex;justify-content:center;align-items:center;gap:10px;
+    margin-top:6px;margin-bottom:30px;
     animation:rise .6s cubic-bezier(.2,.8,.2,1) forwards;opacity:0;transform:translateY(14px);
   }
   .lang-pill{
+    direction:ltr;flex-direction:row-reverse;
     display:inline-flex;background:var(--pill-bg);
     border:1px solid var(--line);border-radius:100px;padding:5px;gap:4px;
     box-shadow:0 8px 22px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.06);
@@ -99,18 +100,17 @@
     padding:8px 20px;border-radius:100px;cursor:pointer;
     transition:color .25s ease, background .3s ease;
   }
-  /* دوگمەی دارک/لایت — هەمیشە لای چەپ، بەبێ جووڵان */
+  /* دوگمەی دارک/لایت — تەنیشت گۆڕەری زمان */
   .theme-btn{
-    position:absolute;left:0;top:50%;
+    flex:0 0 auto;
     width:42px;height:42px;border-radius:50%;cursor:pointer;
     background:var(--pill-bg);border:1px solid var(--line);
     display:flex;align-items:center;justify-content:center;
     color:var(--gold);
     box-shadow:0 8px 22px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.06);
-    transform:translateY(-50%);
     transition:transform .25s ease, color .25s ease;
   }
-  .theme-btn:hover{transform:translateY(-50%) rotate(-18deg)}
+  .theme-btn:hover{transform:rotate(-18deg)}
   .theme-btn svg{width:21px;height:21px;fill:currentColor}
   .theme-btn .i-moon{display:none}
   body.light .theme-btn .i-sun{display:none}
@@ -261,9 +261,6 @@ function setLang(l){
   document.documentElement.dir  = (l === 'en') ? 'ltr' : 'rtl';
   document.getElementById('btnKu').classList.toggle('active', l === 'ku');
   document.getElementById('btnEn').classList.toggle('active', l === 'en');
-  // ئاراستەی دوگمەکانی زمان لەگەڵ زمانەکە هاوتا دەبێت
-  document.querySelector('.lang-pill').style.flexDirection =
-    (l === 'en') ? 'row-reverse' : 'row';
   render();
 }
 

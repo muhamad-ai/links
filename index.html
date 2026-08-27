@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ckb" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -170,8 +170,8 @@
         <svg class="i-moon" viewBox="0 0 24 24"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8 8 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.6 8.6 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05z"/></svg>
       </button>
       <div class="lang-pill">
-        <button id="btnKu" class="active" onclick="setLang('ku')">کوردی</button>
-        <button id="btnEn" onclick="setLang('en')">English</button>
+        <button id="btnKu" onclick="setLang('ku')">کوردی</button>
+        <button id="btnEn" class="active" onclick="setLang('en')">English</button>
       </div>
     </div>
     <div class="links" id="links"></div>
@@ -223,7 +223,8 @@ const LINKS = [
 ];
 
 const box = document.getElementById('links');
-let lang = 'ku';
+let lang = 'en';
+document.body.classList.add('en');
 
 /* ---- گۆڕینی دارک / لایت ---- */
 function toggleTheme(){
